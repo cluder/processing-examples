@@ -8,9 +8,9 @@ import processing.event.MouseEvent;
  * Our Game-Class extends {@link PApplet}, which contains the Game-Loop.
  */
 public class ProcessingExample extends PApplet {
-    PImage pepeImg;
-    float pepeX;
-    float pepeY;
+    private PImage pepeImg;
+    private float pepeX;
+    private float pepeY;
 
     public static void main(String[] args) {
         // processing way to start the game
@@ -31,7 +31,7 @@ public class ProcessingExample extends PApplet {
 
         loop();
 
-        // load an image and set intial position
+        // load an image and set initial position
         pepeImg = loadImage("resources/pepe.png");
         pepeX = 100;
         pepeY = 100;
@@ -76,14 +76,11 @@ public class ProcessingExample extends PApplet {
         noStroke();
         rect(50, y, 100, 10);
 
-        y += 50;
-
         // display pepe
         image(pepeImg, pepeX, pepeY);
-
     }
 
-    void movePepe() {
+    private void movePepe() {
         pepeX = (float) (Math.random() * (640.0 - pepeImg.width));
         pepeY = (float) (Math.random() * (480.0 - pepeImg.height));
     }
