@@ -1,5 +1,5 @@
 # example-processing-intellij
-A simple starter project using the processing java library and IntelliJ
+A simple starter project using the [Processing java library](https://processing.org/) and IntelliJ
 
 
 In IntelliJ:
