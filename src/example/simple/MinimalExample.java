@@ -22,6 +22,7 @@ public class MinimalExample extends PApplet {
 		clear();
 		background(0);
 
-		text("Hello World", 100, 100);
+		textSize(25);
+		text("Hello World", 200, 200);
 	}
 }
