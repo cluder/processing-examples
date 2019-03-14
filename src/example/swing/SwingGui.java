@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -38,14 +37,14 @@ public class SwingGui extends JFrame {
 	}
 
 	public SwingGui() {
-		setPreferredSize(new Dimension(400, 300));
+		setPreferredSize(new Dimension(400, 200));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		getContentPane().setLayout(null);
 
-		JLabel lblAaaGame = new JLabel("AAA Game");
+		JLabel lblAaaGame = new JLabel("Settings");
 		lblAaaGame.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
-		lblAaaGame.setBounds(10, 11, 100, 14);
+		lblAaaGame.setBounds(10, 11, 100, 39);
 		getContentPane().add(lblAaaGame);
 
 		JLabel lblPlayer1 = new JLabel("Player 1");
@@ -67,13 +66,9 @@ public class SwingGui extends JFrame {
 		getContentPane().add(textPlayer2);
 		textPlayer2.setColumns(10);
 
-		JButton btnFight = new JButton("Fight !");
-		btnFight.setBounds(117, 228, 128, 23);
-		getContentPane().add(btnFight);
-
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setBounds(177, 11, 12, 198);
+		separator.setBounds(177, 11, 12, 140);
 		getContentPane().add(separator);
 
 		final String[] items = new String[] { "pepe.png", "pepe1.png" };

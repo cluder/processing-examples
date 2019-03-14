@@ -15,7 +15,6 @@ public class MinimalExample extends PApplet {
 	@Override
 	public void setup() {
 		frameRate(30);
-
 	}
 
 	@Override
