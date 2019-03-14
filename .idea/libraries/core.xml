@@ -2,6 +2,9 @@
   <library name="core">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/core.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/sound/javamp3-1.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/sound/jsyn-20171016.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/sound/sound.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="https://processing.github.io/processing-javadocs/core/" />
