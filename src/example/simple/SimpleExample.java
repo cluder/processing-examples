@@ -47,7 +47,8 @@ public class SimpleExample extends PApplet {
 	 */
 	@Override
 	public void draw() {
-		int y = 50;
+		final int xMid = sketchWidth() / 2;
+		final int yMid = sketchHeight() / 2;
 
 		// clear the whole screen
 		clear();
@@ -55,23 +56,18 @@ public class SimpleExample extends PApplet {
 		// set white color, display text
 		fill(255, 255, 255);
 		textSize(30);
-		text("Hello World", 50, y);
+		text("Hello World", xMid - 100, yMid);
 
-		y += 50;
+		// draw a blue rect - filled - no stroke
+		fill(0, 0, 255);
+		noStroke();
+		rect(xMid - 100, yMid + 10, 165, 10);
 
-		// draw a blue rect - not filled - but with an outline
+		// draw a green rect - not filled - with stroke
 		color(0, 0, 255);
 		noFill();
 		stroke(0, 255, 0);
-		rect(50, y, 100, 20);
-
-		y += 50;
-
-		// draw a green rect - filled blue - no outline
-		color(0, 255, 0);
-		fill(0, 0, 255);
-		noStroke();
-		rect(50, y, 100, 10);
+		rect(xMid - 120, yMid - 50, 210, 100);
 
 		// display pepe
 		image(pepeImg, pepeX, pepeY);
