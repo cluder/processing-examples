@@ -39,7 +39,7 @@ public class SwingExample extends PApplet {
 	@Override
 	public void draw() {
 		// clear the whole screen
-		clear();
+		background(0);
 
 		// grab new values from GUI
 		// Player names

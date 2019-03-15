@@ -11,7 +11,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class SwingGui extends JFrame {
+class SwingGui extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private JTextField textPlayer1;

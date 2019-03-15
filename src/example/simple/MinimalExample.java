@@ -2,6 +2,9 @@ package example.simple;
 
 import processing.core.PApplet;
 
+/**
+ * Minimal example which just shows a text.
+ */
 public class MinimalExample extends PApplet {
 	public static void main(String[] args) {
 		PApplet.main(MinimalExample.class);
@@ -9,7 +12,7 @@ public class MinimalExample extends PApplet {
 
 	@Override
 	public void settings() {
-		setSize(640, 480);
+		size(640, 480);
 	}
 
 	@Override
@@ -19,8 +22,8 @@ public class MinimalExample extends PApplet {
 
 	@Override
 	public void draw() {
-		clear();
-		background(0);
+		// clear screen with a dark grey background
+		background(50);
 
 		textSize(25);
 		text("Hello World", 200, 200);

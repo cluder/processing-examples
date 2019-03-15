@@ -5,7 +5,8 @@ import processing.core.PImage;
 import processing.event.MouseEvent;
 
 /**
- * Our Game-Class extends {@link PApplet}, which contains the Game-Loop.
+ * A simple example which paints simple shaped and loads an image.<br>
+ * The image is moved when when hit by the cursor.<br>
  */
 public class SimpleExample extends PApplet {
 	private PImage pepeImg;
@@ -13,7 +14,6 @@ public class SimpleExample extends PApplet {
 	private float pepeY;
 
 	public static void main(String[] args) {
-		// processing way to start the game
 		PApplet.main(SimpleExample.class, args);
 	}
 
@@ -23,8 +23,7 @@ public class SimpleExample extends PApplet {
 	 */
 	@Override
 	public void setup() {
-		super.setup();
-
+		// initial background color
 		background(0);
 
 		frameRate(30);
@@ -47,11 +46,11 @@ public class SimpleExample extends PApplet {
 	 */
 	@Override
 	public void draw() {
+		// clear the whole screen each frame
+		clear();
+
 		final int xMid = sketchWidth() / 2;
 		final int yMid = sketchHeight() / 2;
-
-		// clear the whole screen
-		clear();
 
 		// set white color, display text
 		fill(255, 255, 255);
@@ -73,11 +72,9 @@ public class SimpleExample extends PApplet {
 		image(pepeImg, pepeX, pepeY);
 	}
 
-	private void movePepe() {
-		pepeX = (float) (Math.random() * (640.0 - pepeImg.width));
-		pepeY = (float) (Math.random() * (480.0 - pepeImg.height));
-	}
-
+	/**
+	 * Checks if the mouse hits the image and moves the image to a random location.
+	 */
 	@Override
 	public void mouseMoved(MouseEvent event) {
 		super.mouseMoved(event);
@@ -86,5 +83,10 @@ public class SimpleExample extends PApplet {
 				event.getY() >= pepeY && event.getY() <= pepeY + pepeImg.height) {
 			movePepe();
 		}
+	}
+
+	private void movePepe() {
+		pepeX = (float) (Math.random() * (640.0 - pepeImg.width));
+		pepeY = (float) (Math.random() * (480.0 - pepeImg.height));
 	}
 }
