@@ -5,7 +5,7 @@ import processing.event.MouseEvent;
 import processing.sound.SoundFile;
 
 /**
- * Plays sound files, when the mouse is clicked.
+ * Plays a sound file, when the mouse is clicked.
  */
 public class SoundExample extends PApplet {
 	public static void main(String[] args) {
@@ -18,7 +18,7 @@ public class SoundExample extends PApplet {
 
 	@Override
 	public void settings() {
-		size(640, 480);
+		setSize(640, 480);
 	}
 
 	@Override
@@ -33,6 +33,7 @@ public class SoundExample extends PApplet {
 
 	@Override
 	public void draw() {
+		clear();
 		background(0);
 
 		textSize(25);

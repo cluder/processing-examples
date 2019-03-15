@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/core.jar"/>
 	<classpathentry kind="lib" path="lib/sound/javamp3-1.0.3.jar"/>
-	<classpathentry kind="lib" path="lib/sound/jsyn-20171016.jar"/>
-	<classpathentry kind="lib" path="lib/sound/sound.jar"/>
+	<classpathentry kind="lib" path="lib/sound/sound.jar" sourcepath="lib/sound/sound.jar"/>
+	<classpathentry kind="lib" path="lib/sound/jsyn-20190315.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
