@@ -15,6 +15,7 @@ public class P3DRendererExample extends PApplet {
 
 	float rotation = 10;
 
+	// shape and textures
 	PShape sphere;
 	PImage tex1;
 	PImage tex2;
@@ -65,6 +66,14 @@ public class P3DRendererExample extends PApplet {
 		updateSpherePos();
 
 		drawObjects();
+	}
+
+	@Override
+	public void mouseDragged() {
+		// move camera view with mouse
+		camera(mouseX, height / 2, (height / 2) / tan(PI / 6), // eye x,y,z
+				mouseX, height / 2, 0, // center x,y,z
+				0, 1, 0);
 	}
 
 	private void drawObjects() {
