@@ -3,12 +3,26 @@
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/core.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/sound/javamp3-1.0.3.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/sound/jsyn-20171016.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/sound/sound.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/sound/jsyn-20190315.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/renderer/gluegen-rt-natives-linux-amd64.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/renderer/gluegen-rt-natives-linux-i586.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/renderer/gluegen-rt-natives-macosx-universal.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/renderer/gluegen-rt-natives-windows-amd64.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/renderer/gluegen-rt-natives-windows-i586.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/renderer/gluegen-rt.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/renderer/jogl-all-natives-linux-amd64.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/renderer/jogl-all-natives-linux-i586.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/renderer/jogl-all-natives-macosx-universal.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/renderer/jogl-all-natives-windows-amd64.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/renderer/jogl-all-natives-windows-i586.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/renderer/jogl-all.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="https://processing.github.io/processing-javadocs/core/" />
     </JAVADOC>
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/sound/jsyn-20190315.jar!/" />
+    </SOURCES>
   </library>
 </component>
