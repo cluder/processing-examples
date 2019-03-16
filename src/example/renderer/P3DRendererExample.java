@@ -126,8 +126,8 @@ public class P3DRendererExample extends PApplet {
 		// bottom triangle
 		beginShape();
 		texture(tex1);
-		vertex(100, 100, -100, 512, 0);
-		vertex(-100, 100, -100, 0, 0);
+		vertex(100, 100, -100, 0, 0);
+		vertex(-100, 100, -100, 512, 0);
 		vertex(0, 0, 100, 256, 512);
 		endShape();
 
