@@ -1,15 +1,20 @@
 package example.swing;
 
+import java.awt.Color;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 
+/**
+ * Opens an additional swing window, where some settings can be changed.
+ */
 public class SwingExample extends PApplet {
 	SwingGui gui;
 
-	String iconPlayer1String;
-	PImage iconPlayer1;
-	String iconPlayer2String;
-	PImage iconPlayer2;
+	String currentIconFilename;
+	PImage icon;
+
+	Color backgroundColor = Color.BLACK;
 
 	public static void main(String[] args) {
 		// start processing
@@ -17,16 +22,13 @@ public class SwingExample extends PApplet {
 	}
 
 	public SwingExample() {
+		// start swing gui
 		gui = new SwingGui();
-		// start separate swing gui
 		gui.setVisible(true);
 	}
 
 	@Override
 	public void setup() {
-		super.setup();
-
-		background(0);
 
 		frameRate(30);
 	}
@@ -38,38 +40,27 @@ public class SwingExample extends PApplet {
 
 	@Override
 	public void draw() {
-		// clear the whole screen
-		background(0);
-
 		// grab new values from GUI
-		// Player names
-		final String player1 = gui.getPlayer1Name();
-		final String player2 = gui.getPlayer2Name();
+		// Player name
+		final String player = gui.getPlayerName();
+		backgroundColor = gui.getBgColor();
 
-		textSize(20);
-		text("player 1: " + player1, 100, 100);
-		text("player 2: " + player2, 400, 100);
+		// clear the whole screen
+		background(backgroundColor.getRGB());
+
+		textSize(25);
+		text("Player name: " + player, 100, 100);
 
 		// Player Icon
-		final String newIconPlayer1String = gui.getPlayer1Icon();
-		if (newIconPlayer1String.equals(iconPlayer1String) == false) {
+		final String newIconFilename = gui.getPlayerIcon();
+		if (newIconFilename.equals(currentIconFilename) == false) {
 			System.out.println("reloading img");
-			iconPlayer1 = loadImage("resources/" + newIconPlayer1String);
-			iconPlayer1String = newIconPlayer1String;
-		}
-		final String newIconPlayer2String = gui.getPlayer2Icon();
-		if (newIconPlayer2String.equals(iconPlayer2String) == false) {
-			System.out.println("reloading img");
-			iconPlayer2 = loadImage("resources/" + newIconPlayer2String);
-			iconPlayer2String = newIconPlayer2String;
+			icon = loadImage("resources/" + newIconFilename);
+			currentIconFilename = newIconFilename;
 		}
 
-		if (iconPlayer1 != null) {
-			image(iconPlayer1, 100, 150);
-		}
-
-		if (iconPlayer2 != null) {
-			image(iconPlayer2, 400, 150);
+		if (icon != null) {
+			image(icon, 100, 150);
 		}
 	}
 }

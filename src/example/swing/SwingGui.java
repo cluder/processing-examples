@@ -1,86 +1,77 @@
 package example.swing;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 class SwingGui extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	private JTextField textPlayer1;
-	private JTextField textPlayer2;
+	private JTextField textPlayer;
 
-	JComboBox<String> comboBoxP1;
-	JComboBox<String> comboBoxP2;
+	JComboBox<String> comboBox;
+	Color bgColor = Color.BLACK;
 
-	public String getPlayer1Name() {
-		return textPlayer1.getText();
+	public String getPlayerName() {
+		return textPlayer.getText();
 	}
 
-	public String getPlayer2Name() {
-		return textPlayer2.getText();
+	public String getPlayerIcon() {
+		return (String) comboBox.getSelectedItem();
 	}
 
-	public String getPlayer1Icon() {
-		return (String) comboBoxP1.getSelectedItem();
-	}
-
-	public String getPlayer2Icon() {
-		return (String) comboBoxP2.getSelectedItem();
+	public Color getBgColor() {
+		return bgColor;
 	}
 
 	public SwingGui() {
-		setPreferredSize(new Dimension(400, 200));
+		setPreferredSize(new Dimension(230, 230));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		getContentPane().setLayout(null);
 
 		JLabel lblAaaGame = new JLabel("Settings");
 		lblAaaGame.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
-		lblAaaGame.setBounds(10, 11, 100, 39);
+		lblAaaGame.setBounds(10, 11, 100, 35);
 		getContentPane().add(lblAaaGame);
 
-		JLabel lblPlayer1 = new JLabel("Player 1");
-		lblPlayer1.setBounds(10, 64, 46, 14);
-		getContentPane().add(lblPlayer1);
+		JLabel lblPlayer = new JLabel("Player 1");
+		lblPlayer.setBounds(10, 64, 46, 14);
+		getContentPane().add(lblPlayer);
 
-		textPlayer1 = new JTextField();
-		textPlayer1.setText("");
-		textPlayer1.setBounds(66, 61, 86, 20);
-		getContentPane().add(textPlayer1);
-		textPlayer1.setColumns(10);
-
-		JLabel lblPlayer2 = new JLabel("Player 2");
-		lblPlayer2.setBounds(199, 61, 46, 14);
-		getContentPane().add(lblPlayer2);
-
-		textPlayer2 = new JTextField();
-		textPlayer2.setBounds(255, 58, 86, 20);
-		getContentPane().add(textPlayer2);
-		textPlayer2.setColumns(10);
-
-		JSeparator separator = new JSeparator();
-		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setBounds(177, 11, 12, 140);
-		getContentPane().add(separator);
+		textPlayer = new JTextField();
+		textPlayer.setText("");
+		textPlayer.setBounds(65, 57, 109, 20);
+		getContentPane().add(textPlayer);
+		textPlayer.setColumns(10);
 
 		final String[] items = new String[] { "pepe.png", "pepe1.png" };
-		comboBoxP1 = new JComboBox<>();
-		comboBoxP1.setModel(new DefaultComboBoxModel<>(items));
-		comboBoxP1.setBounds(66, 93, 86, 23);
-		getContentPane().add(comboBoxP1);
+		comboBox = new JComboBox<>();
+		comboBox.setModel(new DefaultComboBoxModel<>(items));
+		comboBox.setBounds(65, 89, 109, 23);
+		getContentPane().add(comboBox);
 
-		comboBoxP2 = new JComboBox<>();
-		comboBoxP2.setModel(new DefaultComboBoxModel<String>(items));
-		comboBoxP2.setBounds(255, 94, 86, 23);
-		getContentPane().add(comboBoxP2);
+		JButton btnPickColor = new JButton("Change background color");
+		btnPickColor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Color col = JColorChooser.showDialog(btnPickColor, "Choose background colro", Color.black);
+				if (col != null) {
+					bgColor = col;
+				}
+			}
+		});
+		btnPickColor.setBounds(10, 135, 194, 35);
+		getContentPane().add(btnPickColor);
 
 		pack();
 	}
