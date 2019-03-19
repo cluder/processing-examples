@@ -1,4 +1,4 @@
-package image;
+package example.image;
 
 import processing.core.PApplet;
 import processing.core.PImage;
