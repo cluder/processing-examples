@@ -33,7 +33,8 @@ public class PixelInfoExample extends PApplet {
 			}
 		}
 
-		// dont start draw loop
+		// exit program, don't call loop in draw()
 		exit();
 	}
+
 }
