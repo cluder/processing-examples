@@ -55,7 +55,7 @@ class SwingGui extends JFrame {
 		getContentPane().add(textPlayer);
 		textPlayer.setColumns(10);
 
-		final String[] items = new String[] { "pepe.png", "pepe1.png" };
+		final String[] items = new String[] { "pepe.png", "pepe_s.png", "pepe_good.png", "pepe_bad.png" };
 		comboBox = new JComboBox<>();
 		comboBox.setModel(new DefaultComboBoxModel<>(items));
 		comboBox.setBounds(65, 89, 109, 23);
