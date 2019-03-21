@@ -5,7 +5,7 @@ import processing.core.PImage;
 import processing.event.MouseEvent;
 
 /**
- * A simple example which paints simple shaped and loads an image.<br>
+ * A simple example which paints simple shapes and loads an image.<br>
  * The image is moved when when hit by the cursor.<br>
  */
 public class SimpleExample extends PApplet {
@@ -47,7 +47,7 @@ public class SimpleExample extends PApplet {
 	@Override
 	public void draw() {
 		// clear the whole screen each frame
-		clear();
+		background(0);
 
 		final int xMid = sketchWidth() / 2;
 		final int yMid = sketchHeight() / 2;
@@ -77,7 +77,6 @@ public class SimpleExample extends PApplet {
 	 */
 	@Override
 	public void mouseMoved(MouseEvent event) {
-		super.mouseMoved(event);
 
 		if (event.getX() >= pepeX && event.getX() <= pepeX + pepeImg.width && //
 				event.getY() >= pepeY && event.getY() <= pepeY + pepeImg.height) {
