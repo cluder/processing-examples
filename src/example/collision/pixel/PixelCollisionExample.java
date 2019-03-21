@@ -40,8 +40,8 @@ public class PixelCollisionExample extends PApplet {
 		pepeSad = loadImage("resources/pepe_bad.png");
 		img = pepe;
 
-		triangles = new ArrayList<>();
 		// create obstacles
+		triangles = new ArrayList<>();
 		for (int i = 1; i <= 6; i += 2) {
 			TriangleObstacle t = new TriangleObstacle(this, i * 100, 200, 30);
 			triangles.add(t);
@@ -74,7 +74,9 @@ public class PixelCollisionExample extends PApplet {
 	}
 
 	/**
-	 * This check should only be done, if the objects are near each other.
+	 * Check for collision between the image and triangle obstacles.<br>
+	 * First we check, if the img and any triangle are closer than 90 pixel, if so,
+	 * we do a per-pixel check.<br>
 	 */
 	private boolean checkCollision() {
 
@@ -86,10 +88,12 @@ public class PixelCollisionExample extends PApplet {
 			final int imgCenterX = mouseX + img.width / 2;
 			final int imgCenterY = mouseY + img.height / 2;
 
-			point(imgCenterX, imgCenterY);
-
 			float dist = dist(imgCenterX, imgCenterY, t.getCenter().x, t.getCenter().y);
-			if (dist > 100) {
+
+			// visualize distance from img to triangle
+			drawDebugDistance(t, imgCenterX, imgCenterY, dist);
+
+			if (dist > 90) {
 				// this triangle is too far, skip pixel perfect test
 				continue;
 			}
@@ -98,11 +102,18 @@ public class PixelCollisionExample extends PApplet {
 				if (t.isPointInTriangle(pix)) {
 					// found a pixel colliding with the triangle
 					return true;
-				} else {
 				}
 			}
 		}
 		return false;
+	}
+
+	private void drawDebugDistance(TriangleObstacle t, final int imgCenterX, final int imgCenterY, float dist) {
+		// draw a line from
+		stroke(0, 150, 255, 50);
+		line(imgCenterX, imgCenterY, t.getCenter().x, t.getCenter().y);
+		textSize(10);
+		text(String.format("%.2f", dist), t.getCenter().x, t.getCenter().y - 25);
 	}
 
 	/**

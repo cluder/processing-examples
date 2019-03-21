@@ -25,16 +25,19 @@ public class TriangleObstacle {
 		p2 = new PVector(posX + size, posY + size); // right
 		p3 = new PVector(posX - size, posY + size); // left
 
+		// center point of this triangle
 		center = calcCenter();
 
 		// area of this triangle
 		thisArea = triangleArea(p1, p2, p3);
 	}
 
+	/**
+	 * Draw this triangle.
+	 */
 	public void draw(PApplet p) {
 		p.fill(255);
 		p.triangle(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y);
-
 	}
 
 	/**
@@ -43,9 +46,10 @@ public class TriangleObstacle {
 	 */
 	public boolean isPointInTriangle(PVector p) {
 		// create 3 triangles.
-		// from 2 edges of this triangle, to the point we want to check.
-		// if the sum of those 3 triangles is greater than our area, the point must be
-		// outside of this triangle
+		// each triangle is create from 2 edges of this triangle, to the point we want
+		// to check.
+		// if the sum of those tree triangles is greater than our area, the point must
+		// be outside of this triangle
 		float t1Area = triangleArea(p, p2, p3);
 		float t2Area = triangleArea(p, p3, p1);
 		float t3Area = triangleArea(p, p2, p1);
