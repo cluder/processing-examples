@@ -26,14 +26,13 @@ public class SoundExample extends PApplet {
 		frameRate(30);
 
 		// loads mp3/wav files
-		leftClick = new SoundFile(this, "resources/beep1.mp3");
-		rightClick = new SoundFile(this, "resources/beep.mp3");
-		middleClick = new SoundFile(this, "resources/beep.wav");
+		leftClick = new SoundFile(this, "resources/sounds/beep.mp3");
+		rightClick = new SoundFile(this, "resources/sounds/beep.wav");
+		middleClick = new SoundFile(this, "resources/sounds/beep1.mp3");
 	}
 
 	@Override
 	public void draw() {
-		clear();
 		background(0);
 
 		textSize(25);
