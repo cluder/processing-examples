@@ -20,7 +20,7 @@ public class MandelbrotMain extends PApplet {
 
 	@Override
 	public void settings() {
-		size(600, 600);
+		size(500, 500);
 	}
 
 	@Override
@@ -31,45 +31,59 @@ public class MandelbrotMain extends PApplet {
 		showFps();
 	}
 
-	float zoom = 1.f;
-	float xOffset = 0;
-	float yOffset = 0;
+	double whRatio;
+	double zoom = 1.f;
+	int zoomSpeed = 0;
+	double xOffset = 0;
+	double yOffset = 0;
 	int maxIter = 50;
+
+	static public final double mapDouble(double value, double istart, double istop, double ostart, double ostop) {
+		return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
+	}
 
 	@Override
 	public void draw() {
-		frameRate(60);
+		whRatio = (double) width / height;
+//		maxIter = 1000;
+//		yOffset = 0;
+//		zoom = EPSILON;
+		frameRate(20);
+//		background(0);
 
 		updateOffset();
-
+		zoom += zoomSpeed * 0.01f * zoom;
 //		loadPixels();
 
-		for (float w = 0; w < width; w++) {
-			for (float h = 0; h < height; h++) {
+		for (double w = 0; w < width; w++) {
+			for (double h = 0; h < height; h++) {
 
-				float a = map(w, 0, width, -zoom + xOffset, zoom + xOffset);
-				float b = map(h, 0, height, -zoom + yOffset, zoom + yOffset);
+				double a = mapDouble(w, 0, width, (-zoom * whRatio) + xOffset, (zoom * whRatio) + xOffset);
+				double b = mapDouble(h, 0, height, -zoom + yOffset, zoom + yOffset);
+//				double a = map(w, 0, width, -zoom + xOffset, zoom + xOffset);
+//				double b = map(h, 0, height, -zoom + yOffset, zoom + yOffset);
 
-				float ca = a;
-				float cb = b;
+				double ca = a;
+				double cb = b;
 
 				int n = 0;
 
 				while (n < maxIter) {
-					float aa = a * a - b * b;
-					float bb = 2 * a * b;
+					double aa = a * a - b * b;
+					double bb = 2 * a * b;
 
 					a = aa + ca;
 					b = bb + cb;
 
-					if (abs(a + b) > 16) {
+					if (abs((float) (a + b)) > 16) {
 						break;
 					}
 
 					n++;
 				}
 
-				float brightness = map(n, 0, maxIter, 0, 255);
+//				float brightness = map(n, 0, maxIter, 0, 255);
+				float brightness = map(sqrt(n), 0, sqrt(maxIter), 0, 255);
 
 				if (n == maxIter) {
 					brightness = 0;
@@ -92,11 +106,11 @@ public class MandelbrotMain extends PApplet {
 	}
 
 	private void updateOffset() {
-
-		float offsetSpeed = 0.001f;
+		float maxItrIncrease = 0;
+		double offsetSpeed = 0.001f;
 		if (mousePressed) {
-			float diffX = dmouseX - mouseX;
-			float diffY = dmouseY - mouseY;
+			double diffX = dmouseX - mouseX;
+			double diffY = dmouseY - mouseY;
 			xOffset += offsetSpeed * zoom * diffX;
 			yOffset += offsetSpeed * zoom * diffY;
 		}
@@ -106,12 +120,19 @@ public class MandelbrotMain extends PApplet {
 			xOffset = 0;
 			yOffset = 0;
 			zoom = 1f;
+			maxIter = 100;
 		}
+		final float increase = .03f;
 		if (key == '+' && keyPressed) {
-			maxIter++;
+			maxItrIncrease = max(maxIter * increase, 1);
+			maxIter += maxItrIncrease;
 		}
 		if (key == '-' && keyPressed) {
-			maxIter--;
+			maxItrIncrease = max(maxIter * increase, 1);
+			maxIter -= maxItrIncrease;
+			if (maxIter <= 0) {
+				maxIter = 1;
+			}
 		}
 	}
 
@@ -129,7 +150,8 @@ public class MandelbrotMain extends PApplet {
 		text("FPS:" + lastFps, 5, 20);
 		textSize(15);
 		text("zoom:" + zoom, 5, 40);
-		text("iterations:" + maxIter, 5, 60);
+		text("zoom speed:" + zoomSpeed, 5, 60);
+		text("iterations:" + maxIter, 5, 80);
 	}
 
 	@Override
@@ -139,13 +161,14 @@ public class MandelbrotMain extends PApplet {
 
 	@Override
 	public void mouseWheel(MouseEvent event) {
-		final float amount = event.getCount();
-		if (amount < 0) {
-			zoom *= 0.9f;
-		} else {
-			zoom *= 1.1f;
-		}
-
+		final double amount = event.getCount();
+		double speedStep = 0.01f;
+		zoomSpeed += amount;
+//		if (amount < 0) {
+//			zoom *= 0.9f;
+//		} else {
+//			zoom *= 1.1f;
+//		}
 	}
 
 }
