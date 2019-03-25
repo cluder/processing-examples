@@ -34,6 +34,7 @@ public class MandelbrotMain extends PApplet {
 	float zoom = 1.f;
 	float xOffset = 0;
 	float yOffset = 0;
+	int maxIter = 50;
 
 	@Override
 	public void draw() {
@@ -43,7 +44,6 @@ public class MandelbrotMain extends PApplet {
 
 //		loadPixels();
 
-		int maxIter = 100;
 		for (float w = 0; w < width; w++) {
 			for (float h = 0; h < height; h++) {
 
@@ -72,7 +72,6 @@ public class MandelbrotMain extends PApplet {
 				float brightness = map(n, 0, maxIter, 0, 255);
 
 				if (n == maxIter) {
-					// inside the mandelbrot
 					brightness = 0;
 				}
 
@@ -108,6 +107,12 @@ public class MandelbrotMain extends PApplet {
 			yOffset = 0;
 			zoom = 1f;
 		}
+		if (key == '+' && keyPressed) {
+			maxIter++;
+		}
+		if (key == '-' && keyPressed) {
+			maxIter--;
+		}
 	}
 
 	private void showFps() {
@@ -116,14 +121,15 @@ public class MandelbrotMain extends PApplet {
 
 	private void showFps(boolean override) {
 		lastFps = (int) frameRate;
-		fill(0);
-		rectMode(CORNERS);
-		rect(0, 0, 60, 25);
-		fill(255, 255, 0);
+//		fill(0);
+//		rectMode(CORNERS);
+//		rect(0, 0, 60, 25);
+//		fill(255, 255, 0);
 		textSize(20);
-		text(lastFps, 5, 20);
+		text("FPS:" + lastFps, 5, 20);
 		textSize(15);
 		text("zoom:" + zoom, 5, 40);
+		text("iterations:" + maxIter, 5, 60);
 	}
 
 	@Override
