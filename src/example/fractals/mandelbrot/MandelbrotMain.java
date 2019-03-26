@@ -33,7 +33,8 @@ public class MandelbrotMain extends PApplet {
 
 	double whRatio;
 	double zoom = 1.f;
-	int zoomSpeed = 0;
+	int zoomSpeed = 0; // 1,2,3 ...
+	final float zoomSpeedFactor = 0.01f;
 	double xOffset = 0;
 	double yOffset = 0;
 	int maxIter = 50;
@@ -51,8 +52,9 @@ public class MandelbrotMain extends PApplet {
 		frameRate(20);
 //		background(0);
 
+//		clear();
 		updateOffset();
-		zoom += zoomSpeed * 0.01f * zoom;
+		zoom += zoomSpeed * zoomSpeedFactor * zoom;
 //		loadPixels();
 
 		for (double w = 0; w < width; w++) {
@@ -66,9 +68,10 @@ public class MandelbrotMain extends PApplet {
 				double ca = a;
 				double cb = b;
 
-				int n = 0;
+				int iter = 0;
 
-				while (n < maxIter) {
+				// we use while, because we need the iteration counter later
+				while (iter < maxIter) {
 					double aa = a * a - b * b;
 					double bb = 2 * a * b;
 
@@ -76,16 +79,17 @@ public class MandelbrotMain extends PApplet {
 					b = bb + cb;
 
 					if (abs((float) (a + b)) > 16) {
+//					if (a + b > 16) {
 						break;
 					}
 
-					n++;
+					iter++;
 				}
 
 //				float brightness = map(n, 0, maxIter, 0, 255);
-				float brightness = map(sqrt(n), 0, sqrt(maxIter), 0, 255);
+				float brightness = map(sqrt(iter), 0, sqrt(maxIter), 0, 255);
 
-				if (n == maxIter) {
+				if (iter == maxIter) {
 					brightness = 0;
 				}
 
@@ -96,7 +100,10 @@ public class MandelbrotMain extends PApplet {
 
 				int pix = (int) (h * width + w);
 
-				pixels[(int) pix] = color(red, green, blue, alpha);
+				int color = ((int) alpha << 24 | ((int) red << 16) | ((int) green << 8) | (int) blue);
+
+				pixels[pix] = color;
+//				pixels[pix] = color(red, green, blue, alpha);
 			}
 		}
 
@@ -120,13 +127,16 @@ public class MandelbrotMain extends PApplet {
 			xOffset = 0;
 			yOffset = 0;
 			zoom = 1f;
+			zoomSpeed = 0;
 			maxIter = 100;
 		}
+
 		final float increase = .03f;
 		if (key == '+' && keyPressed) {
 			maxItrIncrease = max(maxIter * increase, 1);
 			maxIter += maxItrIncrease;
 		}
+
 		if (key == '-' && keyPressed) {
 			maxItrIncrease = max(maxIter * increase, 1);
 			maxIter -= maxItrIncrease;
@@ -162,7 +172,6 @@ public class MandelbrotMain extends PApplet {
 	@Override
 	public void mouseWheel(MouseEvent event) {
 		final double amount = event.getCount();
-		double speedStep = 0.01f;
 		zoomSpeed += amount;
 //		if (amount < 0) {
 //			zoom *= 0.9f;
