@@ -40,19 +40,16 @@ public class SoundExample extends PApplet {
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent event) {
-		super.mouseClicked(event);
+	public void mousePressed(MouseEvent event) {
+		super.mousePressed(event);
 		switch (event.getButton()) {
 		case LEFT:
-			System.out.println("left clicked");
 			leftClick.play();
 			break;
 		case RIGHT:
-			System.out.println("right clicked");
 			rightClick.play();
 			break;
 		case CENTER:
-			System.out.println("middle clicked");
 			middleClick.play();
 			break;
 		}
