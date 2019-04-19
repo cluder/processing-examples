@@ -13,7 +13,7 @@ import processing.core.PVector;
 public class FractalTreeExample2 extends PApplet {
 
 	public static void main(String[] args) {
-		args = append(args, "--location=-1900,100");
+//		args = append(args, "--location=-1900,100");
 		args = append(args, FractalTreeExample2.class.getName());
 		PApplet.main(args);
 	}
