@@ -17,6 +17,6 @@
 	<classpathentry kind="lib" path="lib/renderer/jogl-all-natives-macosx-universal.jar"/>
 	<classpathentry kind="lib" path="lib/renderer/jogl-all-natives-windows-amd64.jar"/>
 	<classpathentry kind="lib" path="lib/renderer/jogl-all-natives-windows-i586.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/processing-core"/>
+	<classpathentry kind="lib" path="lib/core.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
