@@ -13,7 +13,7 @@ import processing.event.MouseEvent;
 public class MandelbrotMain extends PApplet {
 
 	public static void main(String[] args) {
-		args = append(args, "--location=-1900,100");
+//		args = append(args, "--location=-1900,100");
 		args = append(args, MandelbrotMain.class.getName());
 		PApplet.main(args);
 	}
