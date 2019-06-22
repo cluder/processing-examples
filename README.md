@@ -17,3 +17,6 @@ In IntelliJ:
 
 ### Fractal tree
 ![img](src/example/fractals/tree/screenshot.gif)
+
+### Perlin noise (tiles)
+![img](src/example/fractals/perlinnoise/ani.gif)
