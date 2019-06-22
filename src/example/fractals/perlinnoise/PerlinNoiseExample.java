@@ -3,7 +3,7 @@ package example.fractals.perlinnoise;
 import processing.core.PApplet;
 
 /**
- * Perlin noise example, using tiles. 
+ * Perlin noise example, using tiles.
  */
 public class PerlinNoiseExample extends PApplet {
 	int numTiles = 0;
@@ -14,12 +14,9 @@ public class PerlinNoiseExample extends PApplet {
 		PApplet.main(args);
 	}
 
-	/**
-	 * Screen size 800/800.
-	 */
 	@Override
 	public void settings() {
-		size(800, 800);
+		size(600, 600);
 	}
 
 	@Override
@@ -50,7 +47,7 @@ public class PerlinNoiseExample extends PApplet {
 		noiseDetail(4, 0.5f);
 
 		// set number of tiles / tilesize
-		numTiles = 100;
+		numTiles = 75;
 		tileSize = width / numTiles;
 
 		// move map on keypress (asdw)
