@@ -1,6 +1,7 @@
 package example.fractals.perlinnoise;
 
 import processing.core.PApplet;
+import processing.event.MouseEvent;
 
 /**
  * Perlin noise example, using tiles.
@@ -23,6 +24,9 @@ public class PerlinNoiseExample extends PApplet {
 	public void setup() {
 		background(255, 255);
 		frameRate(30);
+		// set number of tiles / tilesize
+		numTiles = 75;
+		tileSize = width / numTiles;
 	}
 
 	// world coordinates of the top left tile, can be negative
@@ -46,10 +50,6 @@ public class PerlinNoiseExample extends PApplet {
 		// detail
 		noiseDetail(4, 0.5f);
 
-		// set number of tiles / tilesize
-		numTiles = 75;
-		tileSize = width / numTiles;
-
 		// move map on keypress (asdw)
 		scrollSpeed = 2f;
 		move();
@@ -62,8 +62,8 @@ public class PerlinNoiseExample extends PApplet {
 				final float noiseInputX = (coordX + tileX) * noiseScale;
 				final float noiseInputY = (coordY + tileY) * noiseScale;
 
-				System.out.println(
-						"coordx/y:" + coordX + "," + coordY + " | noise input:" + noiseInputX + ": " + noiseInputY);
+//				System.out.println(
+//						"coordx/y:" + coordX + "," + coordY + " | noise input:" + noiseInputX + ": " + noiseInputY);
 
 				// generate noise value
 				// TODO: cache recent values for the last few x/y values
@@ -136,5 +136,15 @@ public class PerlinNoiseExample extends PApplet {
 		if (key == 'd') {
 			moveRight = false;
 		}
+	}
+
+	@Override
+	public void mouseWheel(MouseEvent event) {
+		int count = event.getCount();
+		if (keyCode == SHIFT && keyPressed) {
+			count *= 3;
+		}
+		numTiles += count;
+		tileSize = (float) width / (float) numTiles;
 	}
 }
