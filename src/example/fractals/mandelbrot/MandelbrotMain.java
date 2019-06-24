@@ -22,7 +22,7 @@ public class MandelbrotMain extends PApplet {
 
 	@Override
 	public void settings() {
-		size(800, 600);
+		size(1200, 1000);
 
 	}
 
@@ -31,7 +31,7 @@ public class MandelbrotMain extends PApplet {
 		pixelDensity(1);
 		loadPixels();
 		background(0);
-		frameRate(30);
+		frameRate(530);
 		reset();
 	}
 
@@ -49,6 +49,7 @@ public class MandelbrotMain extends PApplet {
 
 	@Override
 	public void draw() {
+		frameRate(530);
 		whRatio = (double) width / height;
 //		maxIter = 1000;
 //		xOffset = -0.7664847254471618;
@@ -66,8 +67,9 @@ public class MandelbrotMain extends PApplet {
 		// and check if the calculated value is in the mandelbrot set
 		// x = real
 		// y = imaginary
-		for (double pixX = 0; pixX < width; pixX++) {
-			for (double pixY = 0; pixY < height; pixY++) {
+		boolean pixelChanged = false;
+		for (double pixY = 0; pixY < height; pixY++) {
+			for (double pixX = 0; pixX < width; pixX++) {
 
 				// real part mapped from 0 - with to -zoom to +zoom
 				double r = mapDouble(pixX, 0, width, (-zoom * whRatio) + xOffset, (zoom * whRatio) + xOffset);
@@ -111,20 +113,20 @@ public class MandelbrotMain extends PApplet {
 
 				float red = brightness;
 				float green = brightness;
-				float blue = brightness;
+				float blue = 0;
 				float alpha = 255;
 
 				int pix = (int) (pixY * width + pixX);
 
 				int color = ((int) alpha << 24 | ((int) red << 16) | ((int) green << 8) | (int) blue);
 
+//				System.out.println(pix);
 				pixels[pix] = color;
 //				pixels[pix] = color(red, green, blue, alpha);
 			}
 		}
 
 		updatePixels();
-
 		showStats();
 	}
 
