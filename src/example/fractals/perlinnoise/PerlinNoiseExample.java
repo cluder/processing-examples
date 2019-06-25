@@ -33,12 +33,15 @@ public class PerlinNoiseExample extends PApplet {
 	float coordX = 500;
 	float coordY = -1000;
 	// scroll speed
-	float scrollSpeed = 0.2f;
+	float scrollSpeed = 0.01f;
 
 	private boolean moveUp;
 	private boolean moveDown;
 	private boolean moveLeft;
 	private boolean moveRight;
+
+	private boolean shiftPressed;
+	private boolean ctrlPressed;
 
 	float noiseVal;
 	float noiseScale = 0.02f;
@@ -51,7 +54,7 @@ public class PerlinNoiseExample extends PApplet {
 		noiseDetail(4, 0.5f);
 
 		// move map on keypress (asdw)
-		scrollSpeed = 2f;
+		scrollSpeed = 1f;
 		move();
 
 		// generate and draw each tile
@@ -69,6 +72,10 @@ public class PerlinNoiseExample extends PApplet {
 				// TODO: cache recent values for the last few x/y values
 				float noise = noise(noiseInputX, noiseInputY);
 
+				if (numTiles < 120)
+					stroke(0);
+				else
+					noStroke();
 				// render map
 				if (noise < 0.3) {
 					// grass
@@ -85,66 +92,109 @@ public class PerlinNoiseExample extends PApplet {
 				rect(tileX * tileSize, tileY * tileSize, tileSize, tileSize);
 			}
 		}
+
+		printTextBox();
+	}
+
+	private void printTextBox() {
+		fill(0, 180);
+		rect(10, 10, 480, 110);
+
+		int y = 30;
+		stroke(255, 255, 255);
+		fill(255, 255, 0);
+		textSize(17);
+		text("* Mouse wheel to zoom", 20, y);
+		y += 20;
+		text("* a,s,d,w or arrows to move ", 20, y);
+		y += 20;
+		text("* shift: faster, ctrl: super-fast", 20, y);
+		y += 20;
+		y += 20;
+		text("FPS:" + round(frameRate), 20, y);
+		text(" #tiles per row/col:" + numTiles, 90, y);
 	}
 
 	/**
 	 * move the playfiled by modifying the world coords.
 	 */
-
 	private void move() {
+		float realSpeed = scrollSpeed;
+
+		if (shiftPressed)
+			realSpeed += 3.5f;
+		if (ctrlPressed)
+			realSpeed += 10;
+
 		if (moveDown) {
-			coordY += scrollSpeed;
+			coordY += realSpeed;
 		}
 		if (moveUp) {
-			coordY -= scrollSpeed;
+			coordY -= realSpeed;
 		}
 		if (moveLeft) {
-			coordX -= scrollSpeed;
+			coordX -= realSpeed;
 		}
 		if (moveRight) {
-			coordX += scrollSpeed;
+			coordX += realSpeed;
 		}
-
 	}
 
 	public void keyPressed() {
-		if (key == 'w') {
+		if (keyCode == 'W' || keyCode == UP) {
 			moveUp = true;
 		}
-		if (key == 's') {
+		if (keyCode == 'S' || keyCode == DOWN) {
 			moveDown = true;
 		}
-		if (key == 'a') {
+		if (keyCode == 'A' || keyCode == LEFT) {
 			moveLeft = true;
 		}
-		if (key == 'd') {
+		if (keyCode == 'D' || keyCode == RIGHT) {
 			moveRight = true;
 		}
-
+		if (key == CODED && keyCode == SHIFT) {
+			shiftPressed = true;
+		}
+		if (key == CODED && keyCode == CONTROL) {
+			ctrlPressed = true;
+		}
 	}
 
+	@Override
 	public void keyReleased() {
-		if (key == 'w') {
+		if (keyCode == 'W' || keyCode == UP) {
 			moveUp = false;
 		}
-		if (key == 's') {
+		if (keyCode == 'S' || keyCode == DOWN) {
 			moveDown = false;
 		}
-		if (key == 'a') {
+		if (keyCode == 'A' || keyCode == LEFT) {
 			moveLeft = false;
 		}
-		if (key == 'd') {
+		if (keyCode == 'D' || keyCode == RIGHT) {
 			moveRight = false;
+		}
+		if (key == CODED && keyCode == SHIFT) {
+			shiftPressed = false;
+		}
+		if (key == CODED && keyCode == CONTROL) {
+			ctrlPressed = false;
 		}
 	}
 
 	@Override
 	public void mouseWheel(MouseEvent event) {
 		int count = event.getCount();
-		if (keyCode == SHIFT && keyPressed) {
+		if (shiftPressed)
 			count *= 3;
-		}
+		if (ctrlPressed)
+			count *= 10;
+
 		numTiles += count;
+		if (numTiles < 1) {
+			numTiles = 1;
+		}
 		tileSize = (float) width / (float) numTiles;
 	}
 }
