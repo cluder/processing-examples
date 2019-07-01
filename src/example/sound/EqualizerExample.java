@@ -1,5 +1,8 @@
 package example.sound;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+
 import processing.core.PApplet;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
@@ -16,20 +19,28 @@ public class EqualizerExample extends PApplet {
 		PApplet.main(EqualizerExample.class);
 	}
 
+	ArrayList<String> songNames = new ArrayList<>();
+	int currentSongIdx = 0;
+
 	SoundFile song;
-	int volume = 10;
-	int bands = 512;
+	int volume = 30;
+	int bands = 64;
 	FFT fft = new FFT(this, bands);
 	Waveform waveForm = new Waveform(this, bands);
 	boolean drawSepctrum = true;
 
 	@Override
 	public void settings() {
-		setSize(640, 480);
+		size(1280, 720, P3D);
 	}
 
 	@Override
 	public void setup() {
+		songNames.add("Circle Of Alchemists - The Prime-Age.mp3");
+		songNames.add("Circle Of Alchemists - Cryosphere.mp3");
+		songNames.add("Circle Of Alchemists - Jackpot Ride.mp3");
+		songNames.add("Circle Of Alchemists - The Summoning.mp3");
+
 		frameRate(30);
 		background(0);
 		textSize(20);
@@ -37,46 +48,65 @@ public class EqualizerExample extends PApplet {
 
 		// loads mp3/wav files
 		fill(255);
+	}
+
+	private void init() {
 		text("Loading mp3 ...", width / 2, height / 2);
-		song = new SoundFile(this, "resources/sounds/The Summoning.mp3");
 
-		textAlign(LEFT);
-
-		// set mp3 song as input for FFT analyzer
-		fft.input(song);
-		waveForm.input(song);
+		loadSong();
 
 		// set intial volume
 		setVolume();
+
+		textAlign(LEFT);
+		init = true;
 	}
+
+	private void loadSong() {
+		song = new SoundFile(this, "resources/sounds/" + songNames.get(currentSongIdx));
+		song.amp(volume / 100f);
+		fft.input(song);
+		waveForm.input(song);
+		song.play();
+	}
+
+	boolean init = false;
 
 	@Override
 	public void draw() {
+		if (!init) {
+			init();
+		}
+
 		background(0);
-		final int xText = width / 10;
+		final float xText = width * 0.5f;
 		int yText = 30;
 		final int yStep = 20;
 
 		fill(255);
-		textSize(18);
-		text("Left mouse button: play", xText, yText);
-		text("Right mouse button: stop", xText, yText += yStep);
-		text("Middle mouse button: pause", xText, yText += yStep);
-		text("Mouse wheel: adjust volume (current: " + volume + "%)", xText, yText += yStep);
-		text("0-9: number of frequency bands (current: " + bands + ")", xText, yText += yStep);
+		textSize(15);
+		textAlign(LEFT);
+		text("Mouse buttons: play / pause / stop", xText, yText);
+		text("Mouse wheel:   volume (current: " + volume + "%)", xText, yText += yStep);
+		text("0-9: # frequency bands (current: " + bands + ")", xText, yText += yStep);
+		text("Left / right arrow: next song ", xText, yText += yStep);
+
+		yText = height - 7;
+		textAlign(CENTER);
+		text(songNames.get(currentSongIdx), width / 2, yText);
 
 		drawSpectrumAnalyzer();
 		drawWaveForm();
 	}
 
 	private void drawWaveForm() {
-		int widthPercent = 60;
+		int widthPercent = 45;
 
 		final float[] data = waveForm.analyze();
 		final float waveWidth = width / 100.0f * widthPercent;
 		float waveEleWidth = waveWidth / data.length;
-		float xStart = (width - waveWidth) / 1.2f;
-		final float yStart = height * 0.5f;
+		float xStart = width / 2f;
+		final float yStart = height * 0.35f;
 
 		for (int i = 0; i < data.length; i++) {
 			float value = data[i];
@@ -84,36 +114,65 @@ public class EqualizerExample extends PApplet {
 			final float green = map(i, 0, data.length, 50, 255);
 			final float blue = map(i, 0, data.length, 255, 0);
 			stroke(255, green, blue);
-
-			rect(xStart + i * waveEleWidth, yStart, waveEleWidth, value * 50.0f);
-
+			noFill();
+			rect(xStart + i * waveEleWidth, yStart, waveEleWidth, value * 100.0f);
 		}
 	}
+
+	ArrayDeque<float[]> dataQueue = new ArrayDeque<>();
 
 	private void drawSpectrumAnalyzer() {
 		int widthPercent = 90;
 
-		final float[] data = fft.analyze();
 		final float spectrumWidth = width / 100.0f * widthPercent;
-		float spectrumEleWidth = spectrumWidth / data.length;
+		float spectrumEleWidth = spectrumWidth / bands;
 		float xStart = (width - spectrumWidth) / 2;
 		final float yStart = height * 0.95f;
 
-		for (int i = 0; i < data.length; i++) {
-			final float greem = map(i, 0, data.length, 50, 255);
-			final float blue = map(i, 0, data.length, 255, 0);
-			fill(50, greem, blue);
-			if (bands > 128) {
-				noStroke();
-			} else {
-				stroke(0);
+		if (song.isPlaying()) {
+			final float[] data = fft.analyze();
+			final float[] clone = data.clone();
+			dataQueue.addFirst(clone);
+		}
+		final int maxEle = 100;
+
+		if (dataQueue.size() >= maxEle) {
+			dataQueue.removeLast();
+		}
+		if (dataQueue.size() > maxEle) {
+			dataQueue.clear();
+		}
+
+		int z = 0;
+		float alpha = 255;
+		int eleNum = 0;
+		for (float[] ele : dataQueue) {
+			eleNum++;
+			alpha = map(eleNum, 0, dataQueue.size(), 255, 0);
+
+			for (int i = 0; i < ele.length; i++) {
+				final float greem = map(i, 0, ele.length, 50, 255);
+				final float blue = map(i, 0, ele.length, 255, 0);
+				if (bands > 128) {
+					noStroke();
+				} else {
+					stroke(0);
+				}
+
+				push();
+				fill(30, greem, blue, alpha);
+				translate(0, 0, z);
+				rect(xStart + i * spectrumEleWidth, yStart, spectrumEleWidth, -ele[i] * 3000.0f);
+				pop();
 			}
-			rect(xStart + i * spectrumEleWidth, yStart, spectrumEleWidth, -data[i] * 3000.0f);
+			z -= 20;
 		}
 	}
 
 	@Override
 	public void mousePressed(MouseEvent event) {
+		if (!init)
+			return;
 		super.mousePressed(event);
 		switch (event.getButton()) {
 		case LEFT:
@@ -122,6 +181,7 @@ public class EqualizerExample extends PApplet {
 			break;
 		case RIGHT:
 			song.stop();
+			dataQueue.clear();
 			break;
 		case CENTER:
 			song.pause();
@@ -176,11 +236,21 @@ public class EqualizerExample extends PApplet {
 			updateFFT(512);
 		}
 
-		if (event.getKeyCode() == ' ') {
-			drawSepctrum = !drawSepctrum;
-			if (drawSepctrum) {
-//				waveForm.input(input);
+		// right
+		if (event.getKeyCode() == 39) {
+			song.stop();
+			currentSongIdx++;
+			currentSongIdx %= songNames.size();
+			loadSong();
+		}
+		// left
+		if (event.getKeyCode() == 37) {
+			song.stop();
+			currentSongIdx--;
+			if (currentSongIdx < 0) {
+				currentSongIdx = songNames.size();
 			}
+			loadSong();
 		}
 	}
 
@@ -188,6 +258,7 @@ public class EqualizerExample extends PApplet {
 		this.bands = bands;
 		fft = new FFT(this, bands);
 		fft.input(song);
+		dataQueue.clear();
 	}
 
 	private void setVolume() {
