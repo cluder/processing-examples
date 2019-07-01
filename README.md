@@ -20,3 +20,6 @@ In IntelliJ:
 
 ### Perlin noise (tiles)
 ![img](src/example/fractals/perlinnoise/ani.gif)
+
+### Frequency and Waveform Analyzer
+![img](src/example/sound/equalizer_ani.gif)
